@@ -135,9 +135,6 @@
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="..\..\..\Pictures\Saved Pictures\dome.bmp" />
     <Image Include="..\..\..\Pictures\Saved Pictures\img.bmp" />
     <Image Include="..\..\..\Pictures\Saved Pictures\wall1.bmp" />
