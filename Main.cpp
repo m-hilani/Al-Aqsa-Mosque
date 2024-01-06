@@ -1,15 +1,20 @@
 #include <windows.h>		// Header File For Windows
 #include <GL/gl.h>			// Header File For The OpenGL32 Library
 #include <GL/glu.h>			// Header File For The GLu32 Library
-//#include<GL/glut.h>
 #include <GL/glaux.h>		// Header File For The Glaux Library
 #include <cmath>
+#include <GL/texture.h>
+#include "Sky.cpp"
+#include "Floor.cpp"
+#include "DomeOf_TheRock.cpp"
+#include "Fields_Trees.cpp"
+#include "Door.cpp"
+#include "NorthernSection.cpp"
 #include <stdio.h>
-#include "GL/texture.h"
+#include <math.h>
+
 #define _CRT_SECURE_NO_WARNINGS
 #define GLUT_DISABLE_ATEXIT_HACK
-
-
 
 
 HDC			hDC = NULL;		// Private GDI Device Context
@@ -36,13 +41,30 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 	glLoadIdentity();									// Reset The Projection Matrix
 
 	// Calculate The Aspect Ratio Of The Window
-	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 700.0f);
+	gluPerspective(60.0f, (GLfloat)width / (GLfloat)height, 3.1f, 80000.0f);
 
 	glMatrixMode(GL_MODELVIEW);							// Select The Modelview Matrix
 	glLoadIdentity();									// Reset The Modelview Matrix
 }
 
-int Land,Wall,wall_img3, wall_img2,img,dome;
+int back, front, left, right, top, land, land_Rock, cylinder_img, wall_img1, wall_img2,
+roof_img, wall, dome_img, colum_img, chian, chian_img2, bulid_img, platform_img, platform_dome, platform_colum,
+windo_build1_img, Door_build1_img, dome2, grass, door_mercy, DarAlHadith, DarAlHadith2,
+Door_alasibat, Door_alasibat2, school, Door_build2;
+
+
+GLfloat lightpos[] = { 3.0f,3.0f,1.0f,0.0f };
+GLfloat lightamp[] = { 1.0f,1.0f,1.0f,1.0f };
+GLfloat lightdiff[] = { 0.8f,0.8f,0.8f,1.0f };
+GLfloat lightspec[] = { 0.7f,0.7f,0.7f,1.0f };
+
+GLfloat matamp[] = { 1.0f,1.0f,1.0f,1.0f };
+GLfloat matdif[] = { 0.8f,0.8f,0.8f,1.0f };
+GLfloat matspec[] = { 1.0f,1.0f,1.0f,1.0f };
+GLfloat matshin[] = { 128.0f };
+
+
+
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 {
 	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
@@ -51,387 +73,199 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//Lighting:
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);  //light source
+
+
+	// lighting 0
+		glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightamp);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightdiff);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightspec);
+
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
+
+	//object lighting
+	glMaterialfv(GL_FRONT, GL_AMBIENT, matamp);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, matdif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, matspec);
+	glMaterialfv(GL_FRONT, GL_SHININESS, matshin);
+	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_TEXTURE_2D);
-	Land = LoadTexture((CHAR*)"land.bmp", 255);
-	Wall = LoadTexture((CHAR*)"C:\\Users\\ASUS\\Pictures\\Saved Pictures\\Walls.bmp",255);
-	wall_img2= LoadTexture((CHAR*)"C:\\Users\\ASUS\\Pictures\\Saved Pictures\\wall_img2.bmp", 255);
-	img= LoadTexture((CHAR*)"C:\\Users\\ASUS\\Pictures\\Saved Pictures\\img.bmp", 255);
-	dome= LoadTexture((CHAR*)"C:\\Users\\ASUS\\Pictures\\Saved Pictures\\dome.bmp", 255);
-	wall_img3= LoadTexture((CHAR*)"C:\\Users\\ASUS\\Pictures\\Saved Pictures\\wall_img3.bmp", 255);
+
+
+	//specular is the shininess color
+	/* float sp[] = {0,0,0};
+	glLightfv(GL_LIGHT0, GL_SPECULAR, sp); */
+
+	//enabling color material restores sets the color in glColor3f to the ambient & diffuse material components for the objects
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+
+
+	glEnable(GL_TEXTURE_2D);
+	back = LoadTexture((CHAR*)"textures\\back.bmp", 255);
+	front = LoadTexture((CHAR*)"textures\\front.bmp", 255);
+	left = LoadTexture((CHAR*)"textures\\left.bmp", 255);
+	right = LoadTexture((CHAR*)"textures\\right.bmp", 255);
+	top = LoadTexture((CHAR*)"textures\\top.bmp", 255);
+	land = LoadTexture((CHAR*)"textures\\floor.bmp", 255);
+	land_Rock = LoadTexture((CHAR*)"textures\\landrock.bmp", 255);
+	cylinder_img = LoadTexture((CHAR*)"textures\\cylinder_img.bmp", 255);
+	wall_img1 = LoadTexture((CHAR*)"textures\\wall_img1.bmp", 255);
+	wall_img2 = LoadTexture((CHAR*)"textures\\wall_img2.bmp", 255);
+	roof_img = LoadTexture((CHAR*)"textures\\roof_img.bmp", 255);
+	dome_img = LoadTexture((CHAR*)"textures\\dome_img.bmp", 255);
+	dome2 = LoadTexture((CHAR*)"textures\\dome2.bmp", 255);
+	colum_img = LoadTexture((CHAR*)"textures\\colum_img.bmp", 255);
+	chian_img2 = LoadTexture((CHAR*)"textures\\chian_img2.bmp", 255);
+	chian = LoadTexture((CHAR*)"textures\\chian.bmp", 255);
+	platform_colum = LoadTexture((CHAR*)"textures\\platform_colum.bmp", 255);
+	platform_dome = LoadTexture((CHAR*)"textures\\platform_dome.bmp", 255);
+	platform_img = LoadTexture((CHAR*)"textures\\platform_img.bmp", 255);
+	wall = LoadTexture((CHAR*)"textures\\wall.bmp", 255);
+	bulid_img = LoadTexture((CHAR*)"textures\\bulid_img.bmp", 255);
+	Door_build1_img = LoadTexture((CHAR*)"textures\\Door_build1_img.bmp", 255);
+	windo_build1_img = LoadTexture((CHAR*)"textures\\windo_build1_img.bmp", 255);
+	grass = LoadTexture((CHAR*)"textures\\grass.bmp", 255);
+	door_mercy = LoadTexture((CHAR*)"textures\\door_mercy.bmp", 255);
+	DarAlHadith = LoadTexture((CHAR*)"textures\\DarAlHadith.bmp", 255);
+	DarAlHadith2 = LoadTexture((CHAR*)"textures\\DarAlHadith2.bmp", 255);
+	Door_alasibat = LoadTexture((CHAR*)"textures\\Door_alasibat.bmp", 255);
+	Door_alasibat2 = LoadTexture((CHAR*)"textures\\Door_alasibat2.bmp", 255);
+	school = LoadTexture((CHAR*)"textures\\school.bmp", 255);
+	Door_build2 = LoadTexture((CHAR*)"textures\\Door_build2.bmp", 255);
 	return TRUE;										// Initialization Went OK
 }
-double movX, movY, movZ;
-double lX, lY;
+float cameraX = 0.0f;
+float cameraY = 200.0f;
+float cameraZ = 5.0f; // Initial position along Z-axis
+float cameraAngleX = 0.0f;
+float cameraAngleY = 0.0f;
+int lastMouseX = -1;
+int lastMouseY = -1;
+double movX, movY, movZ, lX, lY;
+void Camera()
+{
+	gluLookAt(cameraX, cameraY, cameraZ,
+		cameraX + cos(cameraAngleX) * cos(cameraAngleY),
+		cameraY + sin(cameraAngleY),
+		cameraZ + sin(cameraAngleX) * cos(cameraAngleY),
+		0.0f, 1.0f, 0.0f);
+	float moveSpeed = 200.0f;
 
-void camera()
-{    /* if(-100< movX <100&&0< movY <300&&-75< movZ <75)*/
-	gluLookAt(movX, movY, movZ, lX, lY, -5, 0, 1, 0);
-	if (keys['D'])
-		movX += 0.05;
+
 	if (keys['A'])
-		movX -= 0.05;
+	{
+		cameraX += moveSpeed * sin(cameraAngleX);
+		cameraZ -= moveSpeed * cos(cameraAngleX);
+	}
+	if (keys['D'])
+	{
+		cameraX -= moveSpeed * sin(cameraAngleX);
+		cameraZ += moveSpeed * cos(cameraAngleX);
+	}
 	if (keys['W'])
-		movY += 0.05;
+	{
+		cameraX += moveSpeed * cos(cameraAngleX);
+		cameraZ += moveSpeed * sin(cameraAngleX);
+	}
 	if (keys['S'])
-		movY -= 0.05;
-	if (keys['Z'])
-		movZ += 0.05;
-	if (keys['X'])
-		movZ -= 0.05;
-	if (keys[VK_LEFT])
-		lX += 0.005;
+	{
+		cameraX -= moveSpeed * cos(cameraAngleX);
+		cameraZ -= moveSpeed * sin(cameraAngleX);
+	}
+		movY -= 60;
+	if (keys['Q'])
+		cameraY += 100;
+	if (keys['E'])
+		cameraY -= 100;
+	/*if (keys[VK_LEFT])
+		lX += 280;
 	if (keys[VK_RIGHT])
-		lX -= 0.005;
+		lX -= 280;
 	if (keys[VK_UP])
-		lY += 0.005;
+		lY += 280;
 	if (keys[VK_DOWN])
-		lY -= 0.005;
-	
+		lY -= 200;*/
+
+
 }
-void land()
-{    
-	glPushMatrix();
-	glScaled(4,0,4);
-	glBindTexture(GL_TEXTURE_2D, Land);
-	
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-100, 0, 75);
-	glTexCoord2d(1, 0);
-	glVertex3f(100, 0, 75);
-	glTexCoord2d(1, 1);
-	glVertex3f(100, 0, -75);
-	glTexCoord2d(0, 1);
-	glVertex3f(-100, 0, -75);
-	glEnd();
-	glPopMatrix();
-}
-void wall()
+
+int mouseX = 0, mouseY = 0;
+bool isClicked = 0, isRClicked = 0;
+int x = 0, angle = 360;
+double k = 0, l = 0, h = 0;
+void mouse(int x, int y)
 {
-	glPushMatrix();
-	glScaled(4, 1, 4);
-	glBindTexture(GL_TEXTURE_2D, Wall);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-100, 0, 75);
-	glTexCoord2d(1, 0);
-	glVertex3f(100, 0, 75);
-	glTexCoord2d(1, 1);
-	glVertex3f(100, 10, 75);
-	glTexCoord2d(0, 1);
-	glVertex3f(-100, 10, 75);
-	glEnd();
-	glBindTexture(GL_TEXTURE_2D, Wall);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(100, 0, 75);
-	glTexCoord2d(1, 0);
-	glVertex3f(100, 10, 75);
-	glTexCoord2d(1, 1);
-	glVertex3f(100, 10, -75);
-	glTexCoord2d(0, 1);
-	glVertex3f(100, 0, -75);
-	glEnd();
-	glBindTexture(GL_TEXTURE_2D, Wall);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(100, 0, -75);
-	glTexCoord2d(1, 0);
-	glVertex3f(100, 10, -75);
-	glTexCoord2d(1, 1);
-	glVertex3f(-100, 10, -75);
-	glTexCoord2d(0, 1);
-	glVertex3f(-100, 0, -75);
-	glEnd();
-	glBindTexture(GL_TEXTURE_2D, Wall);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-100, 0, -75);
-	glTexCoord2d(1, 0);
-	glVertex3f(-100, 10, -75);
-	glTexCoord2d(1, 1);
-	glVertex3f(-100, 10, 75);
-	glTexCoord2d(0, 1);
-	glVertex3f(-100, 0, 75);
-	glEnd();
-	glPopMatrix();
+	if (lastMouseX == -1 || lastMouseY == -1) {
+		lastMouseX = x;
+		lastMouseY = y;
+		return;
+	}
+
+	float sensitivity = 0.01f; // Adjust sensitivity as needed
+
+	float deltaX = x - lastMouseX;
+	float deltaY = y - lastMouseY;
+
+	cameraAngleX += deltaX * sensitivity;
+	cameraAngleY -= deltaY * sensitivity;
+
+	// Limit vertical angle to avoid flipping
+	if (cameraAngleY >3.14 / 2.0f) cameraAngleY = 3.14 / 2.0f;
+	if (cameraAngleY < -3.14 / 2.0f) cameraAngleY = -3.14 / 2.0f;
+
+	lastMouseX = x;
+	lastMouseY = y;
+
+
+
 
 }
-//GLfloat t = 0;
-//void init() {
-//	glClearColor(1, 1, 0, 0);
-//	glMatrixMode(GL_MODELVIEW);
-//	glOrtho(0, 500, 0, 500, 0, 10);
-//}
-//void mouse(int button, int state, int x, int y) {
-//	if (button == GLUT_LEFT_BUTTON) {
-//		t--;
-//	}
-//	else if (button == GLUT_RIGHT_BUTTON) {
-//		t++;
-//	}
-//	else {
-//
-//	}
-//	glutPostRedisplay();
-//}                 
-void draw_sphere(float r)
+
+//aazzzwsaassaaaxxxxxxxxxxassxa
+float lamX = 3.0f,lamY = 7.0f, lamZ = 3.0f;
+Sky s = Sky();
+Floor f = Floor();
+Dome_Rock r = Dome_Rock();
+Fields_Trees fields = Fields_Trees();
+Door d = Door();
+Northern_section n = Northern_section();
+
+int DrawGLScene(GLvoid)		
+// Here's Where We Do All The Drawing
 {
-
-	float pi = 3.141592;
-	float di = 0.02;
-	float dj = 0.04;
-	float db = di * 2 * pi;
-	float da = dj * pi;
-
-	
-	for (float i = 0; i < 0.97; i += di) //horizonal
-		for (float j = 0; j < 1.0; j += dj) //vertical
-		{
-			float b = i * pi;      //0     to  2pi
-			float a = (j - 0.5) * pi;  //-pi/2 to pi/2
-
-
-			//normal
-			glNormal3f(
-				cos(a + da / 2) * cos(b + db / 2),
-				cos(a + da / 2) * sin(b + db / 2),
-				sin(a + da / 2));
-
-			glBindTexture(GL_TEXTURE_2D, dome);
-			glBegin(GL_QUADS);
-			//P1
-			
-			glTexCoord2f(i, j);
-			glVertex3f(
-				r * cos(a) * cos(b),
-				(r * cos(a) * sin(b))+60,
-				(r * sin(a))-25);
-			//P2
-			glTexCoord2f(i + di, j);//P2
-			glVertex3f(
-				r * cos(a) * cos(b + db),
-				(r * cos(a) * sin(b + db))+60,
-				(r * sin(a))-25);
-			//P3
-			glTexCoord2f(i + di, j + dj);
-			glVertex3f(
-				r * cos(a + da) * cos(b + db),
-				(r * cos(a + da) * sin(b + db))+60,
-				(r * sin(a + da))-25);
-			//P4
-			glTexCoord2f(i, j + dj);
-			glVertex3f(
-				r * cos(a + da) * cos(b),
-				(r * cos(a + da) * sin(b))+60,
-				(r * sin(a + da))-25);
-			glEnd();
-		}
-}
-void dome_of_theRock_mosque()
-{   
-
-	draw_sphere(45);
-	glPushMatrix();
-	glScaled(3, 1, 3);
-	glBegin(GL_POLYGON);
-	glVertex3f(-10, 0, 10);//1
-	glVertex3f(10, 0, 10);//2
-	glVertex3f(23, 0, -1);//3
-	glVertex3f(23, 0, -19);//4
-	glVertex3f(10, 0, -30);//5
-	glVertex3f(-10, 0, -30);//6
-	glVertex3f(-23, 0, -19);//7
-	glVertex3f(-23, 0, -1);//8
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, img);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-10, 20, 10);//1*
-	glTexCoord2d(1, 0);
-	glVertex3f(10, 20, 10);//2*
-	glTexCoord2d(1, 1);
-	glVertex3f(23, 20, -1);//3*
-	glTexCoord2d(0,1);
-	glVertex3f(23, 20, -19);//4*
-	glTexCoord2d(0, 0);
-	glVertex3f(10, 20, -30);//5*
-	glTexCoord2d(1, 0);
-	glVertex3f(-10, 20, -30);//6*
-	glTexCoord2d(1,1);
-	glVertex3f(-23, 20, -19);//7*
-	glTexCoord2d(0, 1);
-	glVertex3f(-23, 20, -1);//8*
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();///1
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img2);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-10, 0, 10);//1
-	glTexCoord2d(1, 0);
-	glVertex3f(10, 0, 10);//2
-	glTexCoord2d(1,1);
-	glVertex3f(10, 20, 10);//2*
-	glTexCoord2d(0,1);
-	glVertex3f(-10, 20, 10);//1*
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();///2
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img3);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(10, 0, 10);//2
-	glTexCoord2d(1, 0);
-	glVertex3f(23, 0, -1);//3
-	glTexCoord2d(1, 1);
-	glVertex3f(23, 20, -1);//3*
-	glTexCoord2d(0,1);
-	glVertex3f(10, 20, 10);//2*
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();///3
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img2);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(23, 0, -1);//3
-	glTexCoord2d(1, 0);
-	glVertex3f(23, 0, -19);//4
-	glTexCoord2d(1,1);
-	glVertex3f(23, 20, -19);//4*
-	glTexCoord2d(0,1);
-	glVertex3f(23, 20, -1);//3*
-	glEnd();
-	glPopMatrix();
-
-
-	glPushMatrix();///4
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img3);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(23, 0, -19);//4
-	glTexCoord2d(1, 0);
-	glVertex3f(10, 0, -30);//5
-	glTexCoord2d(1,1);
-	glVertex3f(10, 20, -30);//5*
-	glTexCoord2d(0,1);
-	glVertex3f(23, 20, -19);//4*
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();///5
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img2);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(10, 0, -30);//5
-	glTexCoord2d(1, 0);
-	glVertex3f(-10, 0, -30);//6
-	glTexCoord2d(1,1);
-	glVertex3f(-10, 20, -30);//6*
-	glTexCoord2d(0,1);
-	glVertex3f(10, 20, -30);//5*
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();///6
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img3);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-10, 0, -30);//6
-	glTexCoord2d(1, 0);
-	glVertex3f(-23, 0, -19);//7
-	glTexCoord2d(1,1);
-	glVertex3f(-23, 20, -19);//7*
-	glTexCoord2d(0,1);
-	glVertex3f(-10, 20, -30);//6*
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();///7
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img2);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-23, 0, -19);//7
-	glTexCoord2d(1,0);
-	glVertex3f(-23, 0, -1);//8
-	glTexCoord2d(1,1);
-	glVertex3f(-23, 20, -1);//8*
-	glTexCoord2d(0,1);
-	glVertex3f(-23, 20, -19);//7*
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();///8
-	glScaled(3, 3, 3);
-	glBindTexture(GL_TEXTURE_2D, wall_img3);
-	glBegin(GL_POLYGON);
-	glTexCoord2d(0, 0);
-	glVertex3f(-10, 0, 10);//1
-	glTexCoord2d(1, 0);
-	glVertex3f(-23, 0, -1);//8
-	glTexCoord2d(1,1);
-	glVertex3f(-23, 20, -1);//8*
-	glTexCoord2d(0,1);
-	glVertex3f(-10, 20, 10);//1*
-	glEnd();
-	glPopMatrix();
-
-
-}
-
-
-
-
-
-int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
-{
-	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	/*glClear(GL_COLOR_BUFFER_BIT);*/
-	
-	/*glTranslated(0, 0, -8);*/
-    camera();
-	
-	land();
-	
-	wall();
-	dome_of_theRock_mosque();
-	
-	
-
-
-	/*glFlush();*/
-	
-	
-	
-
-
-
-
-	
-	
-
-	
-	
-	
-
-
-
+	Camera();
+	mouse(mouseX, mouseY);
+	s.sky(back, front, left, right, top);
+	f.floor(land);
+	r.land_of_theRock(land_Rock);
+	r.dome_of_theRock_mosque(cylinder_img, dome_img, roof_img, wall_img1, wall_img2);
+	r.Chain_dome(colum_img, chian, chian_img2);
+	r.Chain_dome_Small(colum_img, chian, chian_img2);
+	r.Entrance(colum_img);
+	r.drawer(chian);
+	r.platform(platform_colum, platform_dome, platform_img, chian);
+	r.walls(wall);
+	r.bulid1_Surrounding(windo_build1_img, Door_build1_img, colum_img, chian, dome2, platform_colum);
+	fields.Grass(grass, colum_img, chian, platform_colum, platform_img);
+	d.door(colum_img, door_mercy, chian, DarAlHadith, DarAlHadith2, Door_alasibat, Door_alasibat2);
+	n.Northern_schools(Door_alasibat2, school, Door_build2, colum_img, chian);
+	lightpos[0] = lamX;
+	lightpos[1] = lamY;
+	lightpos[2] = lamZ;
+	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
 	return TRUE;
 }
@@ -654,8 +488,36 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 	WPARAM	wParam,			// Additional Message Information
 	LPARAM	lParam)			// Additional Message Information
 {
+	static PAINTSTRUCT ps;
+
 	switch (uMsg)									// Check For Windows Messages
 	{
+	case WM_MOUSEMOVE:
+	{
+		mouseX = (int)LOWORD(lParam);
+		mouseY = (int)HIWORD(lParam);
+		isClicked = (LOWORD(wParam) & MK_LBUTTON) ? true : false;
+		isRClicked = (LOWORD(wParam) & MK_RBUTTON) ? true : false;
+		break;
+	}
+	case WM_LBUTTONUP:
+		isClicked = false; 	 break;
+	case WM_RBUTTONUP:
+		isRClicked = false;   break;
+	case WM_LBUTTONDOWN:
+		isClicked = true; 	break;
+	case WM_RBUTTONDOWN:
+		isRClicked = true;	break;
+	case WM_PAINT:
+		DrawGLScene();
+		BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+		return 0;
+
+	case WM_TIMER:
+		DrawGLScene();
+		return 0;
+
 	case WM_ACTIVATE:							// Watch For Window Activate Message
 	{
 		if (!HIWORD(wParam))					// Check Minimization State
@@ -709,7 +571,6 @@ LRESULT CALLBACK WndProc(HWND	hWnd,			// Handle For This Window
 	// Pass All Unhandled Messages To DefWindowProc
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
-
 int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 	HINSTANCE	hPrevInstance,		// Previous Instance
 	LPSTR		lpCmdLine,			// Command Line Parameters
@@ -776,5 +637,5 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
 	// Shutdown
 	KillGLWindow();									// Kill The Window
-	return (msg.wParam);							// Exit The Program
+	return (msg.wParam);							// Exit The Program
 }
