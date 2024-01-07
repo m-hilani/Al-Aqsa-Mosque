@@ -9,7 +9,7 @@ class Sky
 public:void sky(int back, int front, int left, int right, int top)
 {
 	glPushMatrix();
-	glScaled(80, 60, 60);
+	glScaled(60, 60, 60);
 	glBindTexture(GL_TEXTURE_2D, front);
 	glBegin(GL_QUADS);
 	glTexCoord2d(0, 0);

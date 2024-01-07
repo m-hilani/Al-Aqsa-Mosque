@@ -9,6 +9,10 @@
 #include "DomeOf_TheRock.cpp"
 #include "Fields_Trees.cpp"
 #include "Door.cpp"
+//#include "3DTexture.cpp"
+//#include "Model_3DS.cpp"
+#include "3DTexture.h"
+#include "Model_3DS.h"
 #include "NorthernSection.cpp"
 #include <stdio.h>
 #include <math.h>
@@ -53,6 +57,7 @@ windo_build1_img, Door_build1_img, dome2, grass, door_mercy, DarAlHadith, DarAlH
 Door_alasibat, Door_alasibat2, school, Door_build2;
 
 
+
 GLfloat lightpos[] = { 3.0f,3.0f,1.0f,0.0f };
 GLfloat lightamp[] = { 1.0f,1.0f,1.0f,1.0f };
 GLfloat lightdiff[] = { 0.8f,0.8f,0.8f,1.0f };
@@ -63,7 +68,9 @@ GLfloat matdif[] = { 0.8f,0.8f,0.8f,1.0f };
 GLfloat matspec[] = { 1.0f,1.0f,1.0f,1.0f };
 GLfloat matshin[] = { 128.0f };
 
-
+Model_3DS tree1;
+//tree
+GLTexture m1, m2;
 
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 {
@@ -74,6 +81,20 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
+	m1.LoadBMP((char*)"bark_loo.bmp");
+	m2.LoadBMP((char*)"bark_loo.bmp");
+
+	tree1 = Model_3DS();
+	char ab[] = "M_TREE5.3DS";
+	tree1.Load(ab);
+	tree1.pos.x = 0;
+	tree1.pos.y = -0;
+	tree1.pos.z = -6;
+	tree1.scale = 0.8;
+	tree1.Materials[0].tex = m1;
+	tree1.Materials[1].tex = m2;
+
+	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -248,6 +269,9 @@ int DrawGLScene(GLvoid)
 	glLoadIdentity();
 	Camera();
 	mouse(mouseX, mouseY);
+	
+	tree1.Draw();
+
 	s.sky(back, front, left, right, top);
 	f.floor(land);
 	r.land_of_theRock(land_Rock);

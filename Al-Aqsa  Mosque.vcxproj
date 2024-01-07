@@ -143,6 +143,7 @@
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Model_3DS.cpp" />
     <ClCompile Include="NorthernSection.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="texture.cpp" />
