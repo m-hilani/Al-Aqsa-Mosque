@@ -71,6 +71,8 @@ GLfloat matshin[] = { 128.0f };
 Model_3DS tree1;
 //tree
 GLTexture m1, m2;
+Model_3DS* tree;
+GLTexture BARK, Leaf;
 
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 {
@@ -82,15 +84,33 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
 	m1.LoadBMP((char*)"bark_loo.bmp");
-	m2.LoadBMP((char*)"bark_loo.bmp");
+	m2.LoadBMPResource((char*)"bark_loo.bmp");
+	tree = new Model_3DS();
+	tree->Load((char*)"Tree1.3DS");
+	Leaf.LoadBMP((char*)"bat.bmp");
+	BARK.LoadBMP((char*)"bark_loo.bmp");
+			
+
+	tree->Materials[0].tex = BARK;
+	tree->Materials[1].tex = Leaf;
+	tree->Materials[2].tex = Leaf;
+	tree->Materials[3].tex = Leaf;
+	tree->Materials[4].tex = Leaf;
+
+
+	tree->pos.x = 1100;
+	tree->pos.y = 200;
+	tree->pos.z = -6;
+	tree->scale = 10;
+
 
 	tree1 = Model_3DS();
 	char ab[] = "M_TREE5.3DS";
 	tree1.Load(ab);
-	tree1.pos.x = 0;
-	tree1.pos.y = -0;
+	tree1.pos.x = 1000;
+	tree1.pos.y = 200;
 	tree1.pos.z = -6;
-	tree1.scale = 0.8;
+	tree1.scale = 10;
 	tree1.Materials[0].tex = m1;
 	tree1.Materials[1].tex = m2;
 
@@ -205,9 +225,9 @@ void Camera()
 		cameraZ -= moveSpeed * sin(cameraAngleX);
 	}
 		movY -= 60;
-	if (keys['Q'])
-		cameraY += 100;
 	if (keys['E'])
+		cameraY += 100;
+	if (keys['Q'])
 		cameraY -= 100;
 	/*if (keys[VK_LEFT])
 		lX += 280;
@@ -269,10 +289,10 @@ int DrawGLScene(GLvoid)
 	glLoadIdentity();
 	Camera();
 	mouse(mouseX, mouseY);
-	
+	tree->Draw();
 	tree1.Draw();
-
-	s.sky(back, front, left, right, top);
+	s.Draw_Skybox(0, 0, 0, 100000, 100000, 100000);
+	//s.sky(back, front, left, right, top);
 	f.floor(land);
 	r.land_of_theRock(land_Rock);
 	r.dome_of_theRock_mosque(cylinder_img, dome_img, roof_img, wall_img1, wall_img2);
