@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <windows.h>
-#include <GL/gl.h>			// Header File For The OpenGL32 Library
-#include <GL/glu.h>			// Header File For The GLu32 Library
+#include "GL.H"			// Header File For The OpenGL32 Library
+#include "glu.h"			// Header File For The GLu32 Library
+#include "GLAUX.H"		// Header File For The GLu32 Library
 //#include <gl\glaux.h>		// Header File For The Glaux Library
 //#include <GL/glut.h>
-#include "GL/texture.h"
+#include "texture.h"
 
 
 
