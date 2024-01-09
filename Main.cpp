@@ -1,7 +1,9 @@
+﻿
 #include <windows.h>		// Header File For Windows
 #include "GL.H"			// Header File For The OpenGL32 Library
 #include "glu.h"			// Header File For The GLu32 Library
 #include "GLAUX.H"		// Header File For The Glaux Library
+#include "Qibli.cpp"
 #include <cmath>
 #include "texture.h"
 #include "Sky.cpp"
@@ -14,8 +16,16 @@
 #include "3DTexture.h"
 #include "Model_3DS.h"
 #include "NorthernSection.cpp"
+#include <irrKlang.h>
 #include <stdio.h>
 #include <math.h>
+#include "math3d.h"
+
+//#include "WesternSection.cpp"
+
+using namespace std;
+using namespace irrklang;
+
 
 #define _CRT_SECURE_NO_WARNINGS
 #define GLUT_DISABLE_ATEXIT_HACK
@@ -45,7 +55,7 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 	glLoadIdentity();									// Reset The Projection Matrix
 
 	// Calculate The Aspect Ratio Of The Window
-	gluPerspective(60.0f, (GLfloat)width / (GLfloat)height, 3.1f, 80000.0f);
+	gluPerspective(60.0f, (GLfloat)width / (GLfloat)height, 5.1f, 80000.0f);
 
 	glMatrixMode(GL_MODELVIEW);							// Select The Modelview Matrix
 	glLoadIdentity();									// Reset The Modelview Matrix
@@ -54,11 +64,15 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 int back, front, left, right, top, land, land_Rock, cylinder_img, wall_img1, wall_img2,
 roof_img, wall, dome_img, colum_img, chian, chian_img2, bulid_img, platform_img, platform_dome, platform_colum,
 windo_build1_img, Door_build1_img, dome2, grass, door_mercy, DarAlHadith, DarAlHadith2,
-Door_alasibat, Door_alasibat2, school, Door_build2;
+Door_alasibat, Door_alasibat2, school, Door_build2, Door_school2, school2, sky, school4, school5, school6, school7, school8,
+school9, minaret, QibliTex1,QibliTexi,SKYFRONT, SKYBACK, SKYLEFT, SKYRIGHT, SKYUP, SKYDOWN, walls, qibliUpTex, QibliRoof, qibliUpTex1, QibliDome
+,Carpet, QibliRoof1, QibliRoof2;
 
+int lightX = 3;
+int lightY = 100;
+int lightZ = 1;
 
-
-GLfloat lightpos[] = { 3.0f,3.0f,1.0f,0.0f };
+GLfloat lightpos[] = { lightX,lightY,lightZ,0.0f };
 GLfloat lightamp[] = { 1.0f,1.0f,1.0f,1.0f };
 GLfloat lightdiff[] = { 0.8f,0.8f,0.8f,1.0f };
 GLfloat lightspec[] = { 0.7f,0.7f,0.7f,1.0f };
@@ -68,14 +82,21 @@ GLfloat matdif[] = { 0.8f,0.8f,0.8f,1.0f };
 GLfloat matspec[] = { 1.0f,1.0f,1.0f,1.0f };
 GLfloat matshin[] = { 128.0f };
 
-Model_3DS tree1;
-//tree
-GLTexture m1, m2;
+Model_3DS tree1;//tree
+GLTexture m1, m2,m3,m4;
 Model_3DS* tree;
 GLTexture BARK, Leaf;
 
+
+
+ISoundEngine* engine = createIrrKlangDevice();
+
+M3DMatrix44f shadow;
+M3DVector4f equation;
+
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 {
+
 	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
 	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);				// Black Background
 	glClearDepth(1.0f);									// Depth Buffer Setup
@@ -83,49 +104,34 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
-	m1.LoadBMP((char*)"bark_loo.bmp");
-	m2.LoadBMPResource((char*)"bark_loo.bmp");
-	tree = new Model_3DS();
-	tree->Load((char*)"Tree1.3DS");
-	Leaf.LoadBMP((char*)"bat.bmp");
-	BARK.LoadBMP((char*)"bark_loo.bmp");
-			
 
-	tree->Materials[0].tex = BARK;
-	tree->Materials[1].tex = Leaf;
-	tree->Materials[2].tex = Leaf;
-	tree->Materials[3].tex = Leaf;
-	tree->Materials[4].tex = Leaf;
+	m1.LoadBMP((char*)"textures\\grass.bmp");
+	m2.LoadBMP((char*)"textures\\floor.bmp");
+	//engine->play2D("sound\\archivo.mp3", GL_TRUE);
 
-
-	tree->pos.x = 1100;
-	tree->pos.y = 200;
-	tree->pos.z = -6;
-	tree->scale = 10;
 
 
 	tree1 = Model_3DS();
 	char ab[] = "M_TREE5.3DS";
 	tree1.Load(ab);
-	tree1.pos.x = 1000;
-	tree1.pos.y = 200;
+	tree1.pos.x = 0;
+	tree1.pos.y = 0;
 	tree1.pos.z = -6;
-	tree1.scale = 10;
-	tree1.Materials[0].tex = m1;
-	tree1.Materials[1].tex = m2;
+	tree1.scale = 1;
+	tree1.Materials[0].tex = m3;
+	tree1.Materials[1].tex = m4;
 
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Lighting:
 
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);  //light source
+  //light source
 
 
 	// lighting 0
-		glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightamp);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightdiff);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, lightspec);
@@ -142,6 +148,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glEnable(GL_TEXTURE_2D);
 
 
+
 	//specular is the shininess color
 	/* float sp[] = {0,0,0};
 	glLightfv(GL_LIGHT0, GL_SPECULAR, sp); */
@@ -150,7 +157,12 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-
+	SKYFRONT = LoadTexture((char*)"front.bmp", 255);
+	SKYBACK = LoadTexture((char*)"back.bmp", 255);
+	SKYLEFT = LoadTexture((char*)"left.bmp", 255);
+	SKYRIGHT = LoadTexture((char*)"right.bmp", 255);
+	SKYUP = LoadTexture((char*)"up.bmp", 255);
+	SKYDOWN = LoadTexture((char*)"down.bmp", 255);
 
 	glEnable(GL_TEXTURE_2D);
 	back = LoadTexture((CHAR*)"textures\\back.bmp", 255);
@@ -164,7 +176,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	wall_img1 = LoadTexture((CHAR*)"textures\\wall_img1.bmp", 255);
 	wall_img2 = LoadTexture((CHAR*)"textures\\wall_img2.bmp", 255);
 	roof_img = LoadTexture((CHAR*)"textures\\roof_img.bmp", 255);
-	dome_img = LoadTexture((CHAR*)"textures\\dome_img.bmp", 255);
+	dome_img = LoadTexture((CHAR*)"textures\\golden.bmp", 255);
 	dome2 = LoadTexture((CHAR*)"textures\\dome2.bmp", 255);
 	colum_img = LoadTexture((CHAR*)"textures\\colum_img.bmp", 255);
 	chian_img2 = LoadTexture((CHAR*)"textures\\chian_img2.bmp", 255);
@@ -173,6 +185,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	platform_dome = LoadTexture((CHAR*)"textures\\platform_dome.bmp", 255);
 	platform_img = LoadTexture((CHAR*)"textures\\platform_img.bmp", 255);
 	wall = LoadTexture((CHAR*)"textures\\wall.bmp", 255);
+	walls = LoadTexture((CHAR*)"textures\\walls.bmp", 255);
 	bulid_img = LoadTexture((CHAR*)"textures\\bulid_img.bmp", 255);
 	Door_build1_img = LoadTexture((CHAR*)"textures\\Door_build1_img.bmp", 255);
 	windo_build1_img = LoadTexture((CHAR*)"textures\\windo_build1_img.bmp", 255);
@@ -184,6 +197,34 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	Door_alasibat2 = LoadTexture((CHAR*)"textures\\Door_alasibat2.bmp", 255);
 	school = LoadTexture((CHAR*)"textures\\school.bmp", 255);
 	Door_build2 = LoadTexture((CHAR*)"textures\\Door_build2.bmp", 255);
+	Door_school2 = LoadTexture((CHAR*)"textures\\Door_school2.bmp", 255);
+	school2 = LoadTexture((CHAR*)"textures\\school2.bmp", 255);
+	sky = LoadTexture((CHAR*)"textures\\sky1.bmp", 255);
+	school4 = LoadTexture((CHAR*)"textures\\school4.bmp", 255);
+	school5 = LoadTexture((CHAR*)"textures\\school5.bmp", 255);
+	school6 = LoadTexture((CHAR*)"textures\\school6.bmp", 255);
+	school7 = LoadTexture((CHAR*)"textures\\school7.bmp", 255);
+	school8 = LoadTexture((CHAR*)"textures\\school8.bmp", 255);
+	school9 = LoadTexture((CHAR*)"textures\\school9.bmp", 255);
+	minaret = LoadTexture((CHAR*)"textures\\minaret.bmp", 255);
+	QibliTex1 = LoadTexture((CHAR*)"textures\\Qibli1.bmp", 255);
+	QibliTexi = LoadTexture((CHAR*)"textures\\Qibli.bmp", 255);
+	QibliRoof = LoadTexture((CHAR*)"textures\\QibliRoof.bmp", 255);
+	qibliUpTex = LoadTexture((CHAR*)"textures\\qibliUpTex3.bmp", 255);
+	qibliUpTex1 = LoadTexture((CHAR*)"textures\\qibliUpTex1.bmp", 255);
+	QibliDome = LoadTexture((CHAR*)"textures\\QibliDome.bmp", 255);
+	Carpet = LoadTexture((CHAR*)"textures\\Carpet.bmp", 255);
+	QibliRoof1 = LoadTexture((CHAR*)"textures\\QibliRoof1.bmp", 255);
+	QibliRoof2 = LoadTexture((CHAR*)"textures\\QibliRoof2.bmp", 255);
+
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	M3DVector3f points[3] = { { 25, 0, 100 }, { 100, 0, 25 }, { 125,0, 125 } };
+	m3dGetPlaneEquation(equation, points[0], points[1], points[2]);
+	m3dMakePlanarShadowMatrix(shadow, equation, lightpos);
+
 	return TRUE;										// Initialization Went OK
 }
 float cameraX = 0.0f;
@@ -224,19 +265,31 @@ void Camera()
 		cameraX -= moveSpeed * cos(cameraAngleX);
 		cameraZ -= moveSpeed * sin(cameraAngleX);
 	}
-		movY -= 60;
+	if (keys[']'])
+		lightpos[2] += 1000;
+	movY -= 60;
 	if (keys['E'])
 		cameraY += 100;
 	if (keys['Q'])
 		cameraY -= 100;
-	/*if (keys[VK_LEFT])
-		lX += 280;
-	if (keys[VK_RIGHT])
-		lX -= 280;
-	if (keys[VK_UP])
-		lY += 280;
-	if (keys[VK_DOWN])
-		lY -= 200;*/
+	if (keys['3'])
+		engine->stopAllSounds();
+	if (keys['1'])
+	engine->play2D("sound\\archivo.mp3", GL_TRUE);
+	if (keys['2'])
+	engine->play2D("sound\\azan.mp3", GL_TRUE);
+	if (keys[']'])
+		lightX += 1000;
+	if (keys['['])
+	{
+		lightX -= 1000;
+		
+	}
+		
+
+	if(keys['j'])
+		glDisable(GL_LIGHTING);
+
 
 
 }
@@ -262,7 +315,7 @@ void mouse(int x, int y)
 	cameraAngleY -= deltaY * sensitivity;
 
 	// Limit vertical angle to avoid flipping
-	if (cameraAngleY >3.14 / 2.0f) cameraAngleY = 3.14 / 2.0f;
+	if (cameraAngleY > 3.14 / 2.0f) cameraAngleY = 3.14 / 2.0f;
 	if (cameraAngleY < -3.14 / 2.0f) cameraAngleY = -3.14 / 2.0f;
 
 	lastMouseX = x;
@@ -273,29 +326,447 @@ void mouse(int x, int y)
 
 }
 
-//aazzzwsaassaaaxxxxxxxxxxassxa
-float lamX = 3.0f,lamY = 7.0f, lamZ = 3.0f;
+//aasxadddse
+float lamX = 3.0f, lamY = 7.0f, lamZ = 3.0f;
 Sky s = Sky();
 Floor f = Floor();
 Dome_Rock r = Dome_Rock();
 Fields_Trees fields = Fields_Trees();
 Door d = Door();
 Northern_section n = Northern_section();
+Qibli qibli = Qibli();
+//Western_section w = Western_section();
 
-int DrawGLScene(GLvoid)		
+void trees()
+{      //1right
+	glPushMatrix();//1
+	glTranslated(-800, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(-1600, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(-2400, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(-3200, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(-4000, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	///1 leaft
+	glPushMatrix();//1
+	glTranslated(800, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(1600, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(2400, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(3200, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(4000, -100, -2800);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	//righ back
+	glPushMatrix();//1
+	glTranslated(-800, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(-1600, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(-2400, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(-3200, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(-4000, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	///1 leaft back
+	glPushMatrix();//1
+	glTranslated(800, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(1600, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(2400, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(3200, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(4000, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+
+	///2 leaft back
+	glPushMatrix();//1
+	glTranslated(-7800, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(-8600, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(-9400, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(-10200, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(-11000, -100, -4400);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	//باب التوبة
+	glPushMatrix();//1
+	glTranslated(800, -250, -6400);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(-1000, -250, -6400);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(-2000, -250, -6400);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(-4500, -250, -6400);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(-5500, -250, -6400);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//6
+	glTranslated(-6500, -250, -6400);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//7
+	glTranslated(-7500, -250, -6400);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//8
+	glTranslated(-9000, -250, -6700);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//9
+	glTranslated(-9400, -250, -7000);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//10
+	glTranslated(-9700, -250, -6500);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-5000, -250, -8700);
+	glScaled(15, 15, 15);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//12
+	glTranslated(-1000, -250, -8400);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//13
+	glTranslated(0, -250, -8400);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//14
+	glTranslated(1000, -250, -8400);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//15
+	glTranslated(2000, -250, -8400);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	//glPushMatrix();//16
+	//glTranslated(3000, -250, -8500);rwqw
+	//glScaled(20, 20, 20);
+	//tree1.Draw();
+	//glPopMatrix();
+	glPushMatrix();//17
+	glTranslated(4000, -250, -8400);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//18
+	glTranslated(5500, -250, -8400);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//19
+	glTranslated(6500, -250, -8400);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//20
+	glTranslated(4000, -250, -6500);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//21
+	glTranslated(5000, -250, -6500);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//22
+	glTranslated(3000, -250, -6500);
+	glScaled(20, 20, 20);
+	tree1.Draw();
+	glPopMatrix();
+
+	//Northern_schools
+	glPushMatrix();//0
+	glTranslated(-6800, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//1
+	glTranslated(-7800, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(-8900, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(-9400, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(-10200, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(-11000, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+
+	glPushMatrix();//0
+	glTranslated(-6800, -100, -1900);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//1
+	glTranslated(-7800, -100, -1900);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//2
+	glTranslated(-8900, -100, -1900);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//3
+	glTranslated(-9400, -100, -1900);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//4
+	glTranslated(-10200, -100, -1900);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//5
+	glTranslated(-11000, -100, -1900);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+
+	glPushMatrix();//0
+	glTranslated(-6800, -100, 0);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//1
+	glTranslated(-7800, -100, 0);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+
+	glPushMatrix();//00
+	glTranslated(-3800, -100, 0);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-4800, -100, 0);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//00
+	glTranslated(-3800, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-4800, -100, -1000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//00
+	glTranslated(-3800, -100, -2000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-4800, -100, -2000);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+
+	glPushMatrix();//00
+	glTranslated(-3800, -100, 2500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-4800, -100, 2500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//00
+	glTranslated(-3800, -100, 3500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-4800, -100, 3500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+
+	glPushMatrix();//00
+	glTranslated(-7000, -100, 2500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-8800, -100, 2500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//00
+	glTranslated(-9800, -100, 3500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+	glPushMatrix();//11
+	glTranslated(-7500, -100, 3500);
+	glScaled(10, 10, 10);
+	tree1.Draw();
+	glPopMatrix();
+
+
+
+
+
+}
+
+
+int DrawGLScene(GLvoid)
 // Here's Where We Do All The Drawing
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	Camera();
-	mouse(mouseX, mouseY);
-	tree->Draw();
-	tree1.Draw();
-	s.Draw_Skybox(0, 0, 0, 100000, 100000, 100000);
-	//s.sky(back, front, left, right, top);
+
+	m3dMakePlanarShadowMatrix(shadow, equation, lightpos);
+
+	//s.Draw_Skybox(0,0,0,100000,100000,100000);
+	mouse(mouseX, mouseY); /*sky, sky, sky, sky, top*/
+	/* back,  front, left,  right, top*/
+	s.sky(	SKYBACK, SKYFRONT, SKYLEFT, SKYRIGHT, SKYUP);
+	//qibli.QuadQibli(QibliTex1, QibliTexi, QibliTex1, back, QibliTex1);
+	//length is facing the rock
+
+	glBegin(GL_QUADS);
+
+	glVertex3f(lightpos[0], lightpos[1], lightpos[2] );
+	glVertex3f(lightpos[0]+100, lightpos[1], lightpos[2] );
+	glVertex3f(lightpos[0]+100, lightpos[1]+100, lightpos[2] );
+	glVertex3f(lightpos[0], lightpos[1]+100, lightpos[2] );
+	
+	glEnd();
+
+	qibli.QibliModel(QibliTex1, QibliTex1, QibliTexi, QibliTexi, QibliRoof2, Carpet, 12000, 500, 1500, 6000, 1000, 3000,1,2,shadow);
+	qibli.QibliModel(qibliUpTex1, qibliUpTex1, qibliUpTex, qibliUpTex, QibliRoof, QibliRoof1, 12000, 1250, 1500, 5000, 500, 2000, 2, 3,shadow);
+	qibli.QibliDome(800, QibliDome, 13000, 1500, 1500);
 	f.floor(land);
 	r.land_of_theRock(land_Rock);
 	r.dome_of_theRock_mosque(cylinder_img, dome_img, roof_img, wall_img1, wall_img2);
+
 	r.Chain_dome(colum_img, chian, chian_img2);
 	r.Chain_dome_Small(colum_img, chian, chian_img2);
 	r.Entrance(colum_img);
@@ -305,11 +776,13 @@ int DrawGLScene(GLvoid)
 	r.bulid1_Surrounding(windo_build1_img, Door_build1_img, colum_img, chian, dome2, platform_colum);
 	fields.Grass(grass, colum_img, chian, platform_colum, platform_img);
 	d.door(colum_img, door_mercy, chian, DarAlHadith, DarAlHadith2, Door_alasibat, Door_alasibat2);
-	n.Northern_schools(Door_alasibat2, school, Door_build2, colum_img, chian);
-	lightpos[0] = lamX;
+	n.Northern_schools(Door_alasibat2, school, Door_build2, colum_img, chian, school2, Door_school2, school4, school5, school6, school9, school8, minaret);
+	trees();
+	//w.western_section();
+	/*lightpos[0] = lamX;
 	lightpos[1] = lamY;
-	lightpos[2] = lamZ;
-	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+	lightpos[2] = lamZ;66eeewewwsswwwwdffdssddsssdwwewssaaa
+	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);*/
 
 	return TRUE;
 }
@@ -681,5 +1154,5 @@ int WINAPI WinMain(HINSTANCE	hInstance,			// Instance
 
 	// Shutdown
 	KillGLWindow();									// Kill The Window
-	return (msg.wParam);							// Exit�The�Program
+	return (msg.wParam);							// Exit The Program
 }

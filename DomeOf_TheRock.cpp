@@ -19,7 +19,8 @@ public:void land_of_theRock(int image)
 {
 
 	glPushMatrix();//1
-	glScaled(20, 0, 20);
+	glTranslated(0, 0, 1000);
+	glScaled(20, 0, 40);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -32,8 +33,10 @@ public:void land_of_theRock(int image)
 	glVertex3f(-125, 0, 25);
 	glEnd();
 	glPopMatrix();
+
 	glPushMatrix();//2
-	glScaled(20, 0, 20);
+	glTranslated(-250, 0, 1000);
+	glScaled(30, 0, 40);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -47,7 +50,8 @@ public:void land_of_theRock(int image)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//3
-	glScaled(20, 0, 20);
+	glTranslated(-250, 0, 1750);
+	glScaled(30, 0, 34);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -61,7 +65,8 @@ public:void land_of_theRock(int image)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//4
-	glScaled(20, 0, 20);
+	glTranslated(0, 0, 1750);
+	glScaled(20, 0, 34);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -76,7 +81,8 @@ public:void land_of_theRock(int image)
 	glPopMatrix();
 
 	glPushMatrix();
-	glScaled(23.5, 0, 20);
+	glTranslated(0, 0, 1400);
+	glScaled(23.5, 0, 25);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -91,7 +97,8 @@ public:void land_of_theRock(int image)
 	glPopMatrix();
 
 	glPushMatrix();
-	glScaled(20, 0, 23.5);
+	glTranslated(0, 0, 1650);
+	glScaled(20, 0, 40);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -106,7 +113,8 @@ public:void land_of_theRock(int image)
 	glPopMatrix();
 
 	glPushMatrix();
-	glScaled(23.5, 0, 20);
+	glTranslated(350, 0, 1400);
+	glScaled(30, 0, 25);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -121,7 +129,8 @@ public:void land_of_theRock(int image)
 	glPopMatrix();
 
 	glPushMatrix();
-	glScaled(20, 0, 23.5);
+	glTranslated(0, 0, 1600);
+	glScaled(20, 0, 40);
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -140,10 +149,17 @@ public:void land_of_theRock(int image)
 	  //Dome of the Rock Mosque
 public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img, int wall_img1, int  wall_img2)
 {
-	m.draw_cylinder(500, 80, cylinder_img, 0, 600, -270);
-	m.draw_sphere(500, dome_img, 0, 680, -270);
+	m.draw_cylinder(600, 300, cylinder_img, 550, 1000, 1500);
+	m.draw_sphere(600, dome_img, 550, 1300, 1500);
+	m.draw_sphere(30, dome_img, 550, 2100, 1500);
 	glPushMatrix();
-	glScaled(30, 1, 30);
+	glTranslated(550, 1800, 1500);
+	m.draw_cylinder(30, 300, dome_img, 1, 1, 1);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(500, 0, 2000);
+	glScaled(50, 1, 60);
 	glBegin(GL_POLYGON);
 	glVertex3f(-10, 0, 10);//1
 	glVertex3f(10, 0, 10);//2
@@ -157,7 +173,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, roof_img);
 	glBegin(GL_POLYGON);
 	glTexCoord3d(0, 0, 0);
@@ -180,7 +197,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();///1
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img1);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -195,7 +213,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();///2
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img2);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -210,7 +229,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();///3
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img1);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -226,7 +246,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 
 
 	glPushMatrix();///4
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img2);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -241,7 +262,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();///5
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img1);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -256,7 +278,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();///6
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img2);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -271,7 +294,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();///7
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img1);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -286,7 +310,8 @@ public: void dome_of_theRock_mosque(int cylinder_img, int dome_img, int roof_img
 	glPopMatrix();
 
 	glPushMatrix();///8
-	glScaled(30, 30, 30);
+	glTranslated(500, 0, 2000);
+	glScaled(50, 50, 60);
 	glBindTexture(GL_TEXTURE_2D, wall_img2);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -432,7 +457,7 @@ public:void Chain_dome(int colum_img, int chian, int  chian_img2)
 public:void Chain_dome_Small(int colum_img, int chian, int  chian_img2)
 {
 	glPushMatrix();
-	glTranslated(-800, 0, 800);
+	glTranslated(-800, 0, 2800);
 	glScaled(4.1, 2, 4.1);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
@@ -455,17 +480,17 @@ public:void Chain_dome_Small(int colum_img, int chian, int  chian_img2)
 	glEnd();
 	glPopMatrix();
 
-	columns_middle(colum_img, 5, 100, -840, 0, 840);//colum1
-	columns_middle(colum_img, 5, 100, -760, 0, 840);//colum2
-	columns_middle(colum_img, 5, 100, -708, 0, 800);//colum3
-	columns_middle(colum_img, 5, 100, -708, 0, 724);//colum4
-	columns_middle(colum_img, 5, 100, -760, 0, 680);//colum5
-	columns_middle(colum_img, 5, 100, -840, 0, 680);//colum6
-	columns_middle(colum_img, 5, 100, -892, 0, 724);//colum7
-	columns_middle(colum_img, 5, 100, -892, 0, 800);//colum8
+	columns_middle(colum_img, 5, 100, -840, 0, 2840);//colum1
+	columns_middle(colum_img, 5, 100, -760, 0, 2840);//colum2
+	columns_middle(colum_img, 5, 100, -708, 0, 2800);//colum3
+	columns_middle(colum_img, 5, 100, -708, 0, 2724);//colum4
+	columns_middle(colum_img, 5, 100, -760, 0, 2680);//colum5
+	columns_middle(colum_img, 5, 100, -840, 0, 2680);//colum6
+	columns_middle(colum_img, 5, 100, -892, 0, 2724);//colum7
+	columns_middle(colum_img, 5, 100, -892, 0, 2800);//colum8
 
 	glPushMatrix();   //roof     
-	glTranslated(-800, 100, 800);
+	glTranslated(-800, 100, 2800);
 	glScaled(4.3, 2, 4.3);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
@@ -488,7 +513,7 @@ public:void Chain_dome_Small(int colum_img, int chian, int  chian_img2)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();   //roof0     
-	glTranslated(-800, 80, 800);
+	glTranslated(-800, 80, 2800);
 	glScaled(4.3, 2, 4.3);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
@@ -512,11 +537,11 @@ public:void Chain_dome_Small(int colum_img, int chian, int  chian_img2)
 	glPopMatrix();
 
 	glPushMatrix();//dome
-	glTranslated(-800, 120, 760);
+	glTranslated(-800, 120, 2760);
 	m.draw_sphere(70, chian, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix(); //cylinder
-	glTranslated(-800, 100, 760);
+	glTranslated(-800, 100, 2760);
 	m.draw_cylinder(70, 20, colum_img, 0, 0, 0);
 	glPopMatrix();
 
@@ -575,30 +600,30 @@ public:void  arch(int colum_img, int angle, float Rx, float Ry, float Rz, float 
 }
 public:void Entrance(int colum_img)
 {   //The first entrance to the Dome of the Rock
-	columns_middle(colum_img, 28, 355, 0, 0, 1820);
-	columns_middle(colum_img, 28, 355, -250, 0, 1820);
-	columns_middle(colum_img, 28, 355, 250, 0, 1820);
-	Columns_ends(colum_img, -540, 1, 1840);
-	Columns_ends(colum_img, 540, 1, 1840);
-	arch(colum_img, 0, 0, 0, 0, -385, 350, 1840, 1.35, 1);//arc1_front
-	arch(colum_img, 0, 0, 0, 0, -385, 350, 1800, 1.35, 1);//arc1_back
-	arch(colum_img, 0, 0, 0, 0, -125, 350, 1840, 1, 1);//arc2_front
-	arch(colum_img, 0, 0, 0, 0, -125, 350, 1800, 1, 1);//arc2_back
-	arch(colum_img, 0, 0, 0, 0, 125, 350, 1840, 1, 1);//arc3_front
-	arch(colum_img, 0, 0, 0, 0, 125, 350, 1800, 1, 1);//arc3_back
-	arch(colum_img, 0, 0, 0, 0, 385, 350, 1840, 1, 1.3);//arc4_front
-	arch(colum_img, 0, 0, 0, 0, 385, 350, 1800, 1, 1.3);//arc4_back
+	columns_middle(colum_img, 28, 355, 0, 0, 4820);
+	columns_middle(colum_img, 28, 355, -250, 0, 4820);
+	columns_middle(colum_img, 28, 355, 250, 0, 4820);
+	Columns_ends(colum_img, -540, 1, 4840);
+	Columns_ends(colum_img, 540, 1, 4840);
+	arch(colum_img, 0, 0, 0, 0, -385, 350, 4840, 1.35, 1);//arc1_front
+	arch(colum_img, 0, 0, 0, 0, -385, 350, 4800, 1.35, 1);//arc1_back
+	arch(colum_img, 0, 0, 0, 0, -125, 350, 4840, 1, 1);//arc2_front
+	arch(colum_img, 0, 0, 0, 0, -125, 350, 4800, 1, 1);//arc2_back
+	arch(colum_img, 0, 0, 0, 0, 125, 350, 41840, 1, 1);//arc3_front
+	arch(colum_img, 0, 0, 0, 0, 125, 350, 4800, 1, 1);//arc3_back
+	arch(colum_img, 0, 0, 0, 0, 385, 350, 4840, 1, 1.3);//arc4_front
+	arch(colum_img, 0, 0, 0, 0, 385, 350, 4800, 1, 1.3);//arc4_back
 
 	//The first entrance to the Dome of the Rock 2
 	/*columns_middle(colum_img, 20, 200, -1950, 0, 1970);
 	columns_middle(colum_img, 20, 200, -2450, 0, 1970);*/
-	Columns_ends(colum_img, -1980, 1, 1980);
-	Columns_ends(colum_img, -2400, 1, 1980);
-	arch(colum_img, 0, 0, 0, 0, -2200, 350, 1980, 1.7, 1.8);//arc2_front
-	arch(colum_img, 0, 0, 0, 0, -2200, 350, 1910, 1.7, 1.8);//arc2_back
+	Columns_ends(colum_img, -1980, 1, 4980);
+	Columns_ends(colum_img, -2400, 1, 4980);
+	arch(colum_img, 0, 0, 0, 0, -2200, 350, 4980, 1.7, 1.8);//arc2_front
+	arch(colum_img, 0, 0, 0, 0, -2200, 350, 4910, 1.7, 1.8);//arc2_back
 
 	glPushMatrix();//leaft
-	glTranslated(-785, 350, 1840);
+	glTranslated(-785, 350, 4840);
 	glScaled(150, 150, 150);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
@@ -613,7 +638,7 @@ public:void Entrance(int colum_img)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//right
-	glTranslated(378, 350, 1840);
+	glTranslated(378, 350, 4840);
 	glScaled(150, 150, 150);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
@@ -628,7 +653,7 @@ public:void Entrance(int colum_img)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//top
-	glTranslated(0, 0, 310);
+	glTranslated(0, 0, 3310);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -700,21 +725,21 @@ public:void Entrance(int colum_img)
 	glPopMatrix();
 
 	//Third entrance to the Dome of the Rock
-	columns_middle(colum_img, 28, 355, 2320, 0, 0);
-	columns_middle(colum_img, 28, 355, 2320, 0, 275);
-	columns_middle(colum_img, 28, 355, 2320, 0, -275);
-	Columns_ends(colum_img, 2320, 0, -510);
-	Columns_ends(colum_img, 2320, 0, 590);
-	arch(colum_img, 90, 0, 1, 0, 2300, 350, 400, 1.35, 1);//arc1_front
-	arch(colum_img, 90, 0, 1, 0, 2330, 350, 400, 1.35, 1);//arc1_back
-	arch(colum_img, 90, 0, 1, 0, 2300, 350, 150, 1, 1);//arc2_front
-	arch(colum_img, 90, 0, 1, 0, 2330, 350, 150, 1, 1);//arc2_back
-	arch(colum_img, 90, 0, 1, 0, 2300, 350, -150, 1, 1);//arc3_front
-	arch(colum_img, 90, 0, 1, 0, 2330, 350, -150, 1, 1);//arc3_back
-	arch(colum_img, 90, 0, 1, 0, 2300, 350, -400, 1, 1.3);//arc4_front
-	arch(colum_img, 90, 0, 1, 0, 2330, 350, -400, 1, 1.3);//arc4_back
+	columns_middle(colum_img, 28, 355, 3320, 0, 1500);
+	columns_middle(colum_img, 28, 355, 3320, 0, 1775);
+	columns_middle(colum_img, 28, 355, 3320, 0, 1225);
+	Columns_ends(colum_img, 3320, 0, 1010);
+	Columns_ends(colum_img, 3320, 0, 2090);
+	arch(colum_img, 90, 0, 1, 0, 3300, 350, 1900, 1.35, 1);//arc1_front
+	arch(colum_img, 90, 0, 1, 0, 3330, 350, 1900, 1.35, 1);//arc1_back
+	arch(colum_img, 90, 0, 1, 0, 3300, 350, 1650, 1, 1);//arc2_front
+	arch(colum_img, 90, 0, 1, 0, 3330, 350, 1650, 1, 1);//arc2_back
+	arch(colum_img, 90, 0, 1, 0, 3300, 350, 1350, 1, 1);//arc3_front
+	arch(colum_img, 90, 0, 1, 0, 3330, 350, 1350, 1, 1);//arc3_back
+	arch(colum_img, 90, 0, 1, 0, 3300, 350, 1100, 1, 1.3);//arc4_front
+	arch(colum_img, 90, 0, 1, 0, 3330, 350, 1100, 1, 1.3);//arc4_back
 	glPushMatrix();//leaft
-	glTranslated(2330, 350, 800);
+	glTranslated(3330, 350, 2300);
 	glScaled(150, 150, 150);
 	glRotated(90, 0, 1, 0);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
@@ -730,7 +755,7 @@ public:void Entrance(int colum_img)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//right
-	glTranslated(2330, 350, -395);
+	glTranslated(3330, 350, 1105);
 	glScaled(150, 150, 150);
 	glRotated(90, 0, 1, 0);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
@@ -746,7 +771,7 @@ public:void Entrance(int colum_img)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//top
-	glTranslated(800, 0, -20);
+	glTranslated(1800, 0, 1480);
 	glRotated(90, 0, 1, 0);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
@@ -762,21 +787,21 @@ public:void Entrance(int colum_img)
 	glPopMatrix();
 
 	//four entrance to the Dome of the Rock
-	columns_middle(colum_img, 28, 355, -2320, 0, -75);
-	columns_middle(colum_img, 28, 355, -2320, 0, 175);
-	columns_middle(colum_img, 28, 355, -2320, 0, -325);
-	Columns_ends(colum_img, -2300, 0, -560);
-	Columns_ends(colum_img, -2330, 0, 490);
-	arch(colum_img, -90, 0, 1, 0, -2300, 350, 300, 1, 1.35);//arc1_front
-	arch(colum_img, -90, 0, 1, 0, -2330, 350, 300, 1, 1.35);//arc1_back
-	arch(colum_img, -90, 0, 1, 0, -2300, 350, 50, 1, 1);//arc2_front
-	arch(colum_img, -90, 0, 1, 0, -2330, 350, 50, 1, 1);//arc2_back
-	arch(colum_img, -90, 0, 1, 0, -2300, 350, -200, 1, 1);//arc3_front
-	arch(colum_img, -90, 0, 1, 0, -2330, 350, -200, 1, 1);//arc3_back
-	arch(colum_img, -90, 0, 1, 0, -2300, 350, -450, 1.3, 1);//arc4_front
-	arch(colum_img, -90, 0, 1, 0, -2330, 350, -450, 1.3, 1);//arc4_back
+	columns_middle(colum_img, 28, 355, -2320, 0, 1425);
+	columns_middle(colum_img, 28, 355, -2320, 0, 1675);
+	columns_middle(colum_img, 28, 355, -2320, 0, 1175);
+	Columns_ends(colum_img, -2300, 0, 940);
+	Columns_ends(colum_img, -2330, 0, 1990);
+	arch(colum_img, -90, 0, 1, 0, -2300, 350, 1800, 1, 1.35);//arc1_front
+	arch(colum_img, -90, 0, 1, 0, -2330, 350, 1800, 1, 1.35);//arc1_back
+	arch(colum_img, -90, 0, 1, 0, -2300, 350, 1550, 1, 1);//arc2_front
+	arch(colum_img, -90, 0, 1, 0, -2330, 350, 1550, 1, 1);//arc2_back
+	arch(colum_img, -90, 0, 1, 0, -2300, 350, 1300, 1, 1);//arc3_front
+	arch(colum_img, -90, 0, 1, 0, -2330, 350, 1300, 1, 1);//arc3_back
+	arch(colum_img, -90, 0, 1, 0, -2300, 350, 1050, 1.3, 1);//arc4_front
+	arch(colum_img, -90, 0, 1, 0, -2330, 350, 1050, 1.3, 1);//arc4_back
 	glPushMatrix();//leaft
-	glTranslated(-2300, 350, 700);
+	glTranslated(-2300, 350, 2200);
 	glScaled(150, 150, 150);
 	glRotated(90, 0, 1, 0);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
@@ -792,7 +817,7 @@ public:void Entrance(int colum_img)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//right
-	glTranslated(-2300, 350, -445);
+	glTranslated(-2300, 350, 1055);
 	glScaled(150, 150, 150);
 	glRotated(90, 0, 1, 0);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
@@ -808,7 +833,7 @@ public:void Entrance(int colum_img)
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//top
-	glTranslated(-800, 0, -70);
+	glTranslated(-800, 0, 1430);
 	glRotated(-90, 0, 1, 0);
 	glBindTexture(GL_TEXTURE_2D, colum_img);
 	glBegin(GL_POLYGON);
@@ -830,18 +855,18 @@ public:void Entrance(int colum_img)
 public: void drawer(int chian)
 {
 	//The first drawer
-	m.drawer(chian, 0, 0, 0, 0, 0, 0, 1550, 1, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, 0, -20, 1580, 1, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, 0, -40, 1610, 1, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, 0, -60, 1640, 1, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, 0, -80, 1670, 1, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, 0, 0, 4550, 1, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, 0, -20, 4580, 1, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, 0, -40, 4610, 1, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, 0, -60, 4640, 1, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, 0, -80, 4670, 1, 1, 1);
 
 	//The first drawer 2
-	m.drawer(chian, 0, 0, 0, 0, -2200, 0, 1700, 0.5, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, -2200, -20, 1730, 0.5, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, -2200, -40, 1760, 0.5, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, -2200, -60, 1790, 0.5, 1, 1);
-	m.drawer(chian, 0, 0, 0, 0, -2200, -80, 1770, 0.5, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, -2200, 0, 4700, 0.5, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, -2200, -20, 4730, 0.5, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, -2200, -40, 4760, 0.5, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, -2200, -60, 4790, 0.5, 1, 1);
+	m.drawer(chian, 0, 0, 0, 0, -2200, -80, 4770, 0.5, 1, 1);
 
 	//The second drawer
 	m.drawer(chian, 180, 0, 1, 0, 0, 0, -2050, 1, 1, 1);
@@ -850,26 +875,26 @@ public: void drawer(int chian)
 	m.drawer(chian, 180, 0, 1, 0, 0, -60, -2140, 1, 1, 1);
 	m.drawer(chian, 180, 0, 1, 0, 0, -80, -2170, 1, 1, 1);
 	//thrid drawer
-	m.drawer(chian, 90, 0, 1, 0, 2050, 0, -50, 1, 1, 1);
-	m.drawer(chian, 90, 0, 1, 0, 2080, -20, -50, 1, 1, 1);
-	m.drawer(chian, 90, 0, 1, 0, 2110, -40, -50, 1, 1, 1);
-	m.drawer(chian, 90, 0, 1, 0, 2140, -60, -50, 1, 1, 1);
-	m.drawer(chian, 90, 0, 1, 0, 2170, -80, -50, 1, 1, 1);
+	m.drawer(chian, 90, 0, 1, 0, 3050, 0, 1450, 1, 1, 1);
+	m.drawer(chian, 90, 0, 1, 0, 3080, -20, 1450, 1, 1, 1);
+	m.drawer(chian, 90, 0, 1, 0, 3110, -40, 1450, 1, 1, 1);
+	m.drawer(chian, 90, 0, 1, 0, 3140, -60, 1450, 1, 1, 1);
+	m.drawer(chian, 90, 0, 1, 0, 3170, -80, 1450, 1, 1, 1);
 	//four drawer
-	m.drawer(chian, -90, 0, 1, 0, -2050, 0, -50, 1, 1, 1);
-	m.drawer(chian, -90, 0, 1, 0, -2080, -20, -50, 1, 1, 1);
-	m.drawer(chian, -90, 0, 1, 0, -2110, -40, -50, 1, 1, 1);
-	m.drawer(chian, -90, 0, 1, 0, -2140, -60, -50, 1, 1, 1);
-	m.drawer(chian, -90, 0, 1, 0, -2170, -80, -50, 1, 1, 1);
+	m.drawer(chian, -90, 0, 1, 0, -2050, 0, 1450, 1, 1, 1);
+	m.drawer(chian, -90, 0, 1, 0, -2080, -20, 1450, 1, 1, 1);
+	m.drawer(chian, -90, 0, 1, 0, -2110, -40, 1450, 1, 1, 1);
+	m.drawer(chian, -90, 0, 1, 0, -2140, -60, 1450, 1, 1, 1);
+	m.drawer(chian, -90, 0, 1, 0, -2170, -80, 1450, 1, 1, 1);
 	// platform drawer
-	m.drawer(chian, -90, 0, 1, 0, 2220, 0, 600, 1, 1, 0.1);
-	m.drawer(chian, -90, 0, 1, 0, 2250, 20, 600, 1, 1, 0.1);
-	m.drawer(chian, -90, 0, 1, 0, 2280, 40, 600, 1, 1, 0.1);
-	m.drawer(chian, -90, 0, 1, 0, 2310, 60, 600, 1, 1, 0.1);
-	m.drawer(chian, -90, 0, 1, 0, 2340, 80, 600, 1, 1, 0.1);
-	m.drawer(chian, -90, 0, 1, 0, 2370, 100, 600, 1, 1, 0.1);
-	m.drawer(chian, -90, 0, 1, 0, 2400, 120, 600, 1, 1, 0.1);
-	m.drawer(chian, -90, 0, 1, 0, 2430, 140, 600, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3220, 0, 2100, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3250, 20, 2100, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3280, 40, 2100, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3310, 60, 2100, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3340, 80, 2100, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3370, 100, 2100, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3400, 120, 2100, 1, 1, 0.1);
+	m.drawer(chian, -90, 0, 1, 0, 3430, 140, 2100, 1, 1, 0.1);
 
 	//1درج باب الرحمة و التوبة
 	glPushMatrix();
@@ -914,7 +939,7 @@ public: void drawer(int chian)
 public:void platform(int  platform_colum, int platform_dome, int platform_img, int chian)
 {
 	glPushMatrix();//earth
-	glTranslated(2130, 0, 250);
+	glTranslated(3130, 0, 1750);
 	glBindTexture(GL_TEXTURE_2D, chian);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -929,7 +954,7 @@ public:void platform(int  platform_colum, int platform_dome, int platform_img, i
 	glPopMatrix();
 
 	glPushMatrix();//wall
-	glTranslated(2130, 0, 255);
+	glTranslated(3130, 0, 1755);
 	glBindTexture(GL_TEXTURE_2D, platform_img);
 	glBegin(GL_POLYGON);
 	glTexCoord3d(0, 0, 0);
@@ -948,7 +973,7 @@ public:void platform(int  platform_colum, int platform_dome, int platform_img, i
 	glPopMatrix();
 
 	glPushMatrix();//wall
-	glTranslated(2130, 0, 145);
+	glTranslated(3130, 0, 1645);
 	glBindTexture(GL_TEXTURE_2D, platform_img);
 	glBegin(GL_POLYGON);
 	glTexCoord3d(0, 0, 0);
@@ -967,7 +992,7 @@ public:void platform(int  platform_colum, int platform_dome, int platform_img, i
 	glPopMatrix();
 
 	glPushMatrix();//back
-	glTranslated(2130, 0, 255);
+	glTranslated(3130, 0, 1755);
 	glBindTexture(GL_TEXTURE_2D, platform_img);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -981,13 +1006,13 @@ public:void platform(int  platform_colum, int platform_dome, int platform_img, i
 	glEnd();
 	glPopMatrix();
 
-	columns_middle(platform_colum, 5, 250, 2300, 0, 655);
-	columns_middle(platform_colum, 5, 250, 2330, 0, 550);
-	columns_middle(platform_colum, 5, 250, 2140, 0, 655);
-	columns_middle(platform_colum, 5, 250, 2140, 0, 550);
+	columns_middle(platform_colum, 5, 250, 3300, 0, 2155);
+	columns_middle(platform_colum, 5, 250, 3330, 0, 2050);
+	columns_middle(platform_colum, 5, 250, 3140, 0, 2155);
+	columns_middle(platform_colum, 5, 250, 3140, 0, 2050);
 
 	glPushMatrix();//roof1
-	glTranslated(2130, 110, 260);
+	glTranslated(3130, 110, 1760);
 	glBindTexture(GL_TEXTURE_2D, platform_img);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
@@ -1001,12 +1026,12 @@ public:void platform(int  platform_colum, int platform_dome, int platform_img, i
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();//dome
-	glTranslated(2200, 270, 600);
+	glTranslated(3200, 270, 2100);
 	m.draw_sphere(30, platform_dome, 0, 0, 0);
 	glPopMatrix();
 
 	glPushMatrix(); //cylinder
-	glTranslated(2200, 250, 600);
+	glTranslated(3200, 250, 2100);
 	m.draw_cylinder(30, 20, platform_dome, 0, 0, 0);
 	glPopMatrix();
 
@@ -1037,86 +1062,91 @@ public:void wall(int Wall, int angle, float Rx, float Ry, float Rz, float Tx, fl
 }
 public:void walls(int wall_img)
 {
-	//(img,    angle, Rx, Ry,Rz, Tx, Ty, Tz,  Sx,  Sy, Sz)
-	wall(wall_img, 0, 0, 0, 0, 0, 0, -5, 1, 1, 1);
-	wall(wall_img, 90, 0, 1, 0, -2500, 0, -500, 1, 1, 1);
-	wall(wall_img, 90, 0, 1, 0, -1500, 0, -500, 1, 1, 1);
-	wall(wall_img, 0, 0, 0, 0, 3000, 0, -5, 1, 1, 1);
-	wall(wall_img, 90, 0, 1, 0, 500, 0, 125, 1, 1, 0.75);
-	wall(wall_img, 0, 0, 0, 0, 3000, 0, -1500, 1, 1, 1);
-	wall(wall_img, 0, 0, 0, 0, 3000, 0, -2500, 1, 1, 1);
-	wall(wall_img, 90, 0, 1, 0, 500, 0, -3000, 1, 1, 1);
-	wall(wall_img, 0, 0, 0, 0, 3000, 0, -4500, 1, 1, 1);
-	wall(wall_img, 90, 0, 1, 0, -2500, 0, -3000, 1, 1, 1);
-	wall(wall_img, 90, 0, 1, 0, -1500, 0, -3000, 1, 1, 1);
-	wall(wall_img, 0, 0, 0, 0, 0, 0, -4500, 1, 1, 1);
-	wall(wall_img, 0, 0, 0, 0, 0, 0, -1500, 1, 1, 1);
-	wall(wall_img, 0, 0, 0, 0, 0, 0, -2500, 1, 1, 1);
-	wall(wall_img, 90, 0, 1, 0, -4500, 0, 125, 1, 1, 0.75);
-	wall(wall_img, 90, 0, 1, 0, -4500, 0, -3000, 1, 1, 1);
+	//(img,     angle,Rx,Ry,Rz,   Tx, Ty, Tz,    Sx,Sy,Sz)
+	wall(wall_img, 0, 0, 0, 0, 0, 0, 2995, 1, 1, 1);//1
+	wall(wall_img, 90, 0, 1, 0, -2500, 0, 2500, 1, 1, 1);//2
+	wall(wall_img, 90, 0, 1, 0, -1500, 0, 2500, 1, 1, 1);//3
+	wall(wall_img, 0, 0, 0, 0, 3000, 0, 2995, 1, 1, 1);//4
+	wall(wall_img, 0, 0, 0, 0, 4000, 0, 2995, 1, 1, 1);//4
+	wall(wall_img, 90, 0, 1, 0, 1500, 0, 1250, 1, 1, 1.5);//5
+	wall(wall_img, 0, 0, 0, 0, 4000, 0, 0, 1, 1, 1);//6
+	wall(wall_img, 0, 0, 0, 0, 4000, 0, -1100, 1, 1, 1);//7
+	wall(wall_img, 90, 0, 1, 0, 1500, 0, -3000, 1, 1, 1);//8
+	wall(wall_img, 90, 0, 1, 0, 1500, 0, -1600, 1, 1, 1);//8
+	wall(wall_img, 0, 0, 0, 0, 3000, 0, -4500, 1, 1, 1);//9
+	wall(wall_img, 0, 0, 0, 0, 4000, 0, -4500, 1, 1, 1);//9
+	wall(wall_img, 90, 0, 1, 0, -2500, 0, -3000, 1, 1, 1);//10
+	wall(wall_img, 90, 0, 1, 0, -1500, 0, -3000, 1, 1, 1);//11
+	wall(wall_img, 0, 0, 0, 0, 0, 0, -4500, 1, 1, 1);//12
+	wall(wall_img, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1);//13
+	wall(wall_img, 0, 0, 0, 0, 0, 0, -1100, 1, 1, 1);//14
+	wall(wall_img, 90, 0, 1, 0, -4500, 0, 1230, 1, 1, 1.51);//15
+	wall(wall_img, 90, 0, 1, 0, -4500, 0, -3000, 1, 1, 1);//16
+	wall(wall_img, 90, 0, 1, 0, -4500, 0, -1600, 1, 1, 1);//16
+
 }
 	  //leaft platform for Dome of the Rock Mosque
 
 public:void bulid1_Surrounding(int windo_build1_img, int Door_build1_img, int colume_img, int chian, int dome2, int platform_colum)
 {
 	//bulid0
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 2250, 0, -2250, 125, 10, 125);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 3250, 0, -2250, 125, 10, 125);
 
 	//bulid1
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 2240, 100, 1740, 125, 100, 125);
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 2340, 0, 1400, 75, 125, 75);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 3240, 100, 4740, 125, 100, 125);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 3340, 0, 4400, 75, 125, 75);
 	glPushMatrix();//dome
-	glTranslated(2240, 340, 1740);
+	glTranslated(3240, 340, 4740);
 	m.draw_sphere(150, chian, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix(); //cylinder
-	glTranslated(2240, 300, 1740);
+	glTranslated(3240, 300, 4740);
 	m.draw_cylinder(150, 40, chian, 0, 0, 0);
 	glPopMatrix();
-	m.door_windo(Door_build1_img, 2030, 70, 1620, 25, 50, 25, 0, 0, 0, 0);//door
-	m.door_windo(windo_build1_img, 2030, 140, 1840, 20, 20, 25, 0, 0, 0, 0);// windo1
-	m.door_windo(windo_build1_img, 2200, 140, 1360, 20, 20, 25, 0, 0, 0, 0);// windo2
+	m.door_windo(Door_build1_img, 3030, 70, 4620, 25, 50, 25, 0, 0, 0, 0);//door
+	m.door_windo(windo_build1_img, 3030, 140, 4840, 20, 20, 25, 0, 0, 0, 0);// windo1
+	m.door_windo(windo_build1_img, 3200, 140, 4360, 20, 20, 25, 0, 0, 0, 0);// windo2
 
 	//bulid2
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 700, 0, 1850, 75, 125, 75);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, 700, 0, 4850, 75, 125, 75);
 	glPushMatrix();//dome
-	glTranslated(700, 250, 1850);
+	glTranslated(700, 250, 4850);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
-	m.door_windo(windo_build1_img, 700, 140, 2050, 20, 20, 25, -90, 0, 1, 0);//windo back
-	m.door_windo(windo_build1_img, 700, 140, 1740, 20, 20, 25, -90, 0, 1, 0);//windo front
-	m.door_windo(Door_build1_img, 900, 70, 1775, 25, 50, 25, 0, 0, 0, 0);//Door
+	m.door_windo(windo_build1_img, 700, 140, 5050, 20, 20, 25, -90, 0, 1, 0);//windo back
+	m.door_windo(windo_build1_img, 700, 140, 4740, 20, 20, 25, -90, 0, 1, 0);//windo front
+	m.door_windo(Door_build1_img, 900, 70, 4775, 25, 50, 25, 0, 0, 0, 0);//Door
 
 	//bulid3
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -700, 0, 1850, 75, 125, 75);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -700, 0, 4850, 75, 125, 75);
 	glPushMatrix();//dome
-	glTranslated(-700, 250, 1850);
+	glTranslated(-700, 250, 4850);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
-	m.door_windo(windo_build1_img, -700, 140, 1740, 20, 20, 25, -90, 0, 1, 0);//windo front
-	m.door_windo(windo_build1_img, -700, 140, 2050, 20, 20, 25, -90, 0, 1, 0);////windo back
-	m.door_windo(Door_build1_img, -800, 70, 1775, 25, 50, 25, 0, 0, 0, 0);//door
+	m.door_windo(windo_build1_img, -700, 140, 4740, 20, 20, 25, -90, 0, 1, 0);//windo front
+	m.door_windo(windo_build1_img, -700, 140, 5050, 20, 20, 25, -90, 0, 1, 0);////windo back
+	m.door_windo(Door_build1_img, -800, 70, 4775, 25, 50, 25, 0, 0, 0, 0);//door
 
 	//build4
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -1500, 0, 1825, 155, 125, 90);
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -1500, 0, 1700, 155, 10, 150);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -1500, 0, 4825, 155, 125, 90);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -1500, 0, 4700, 155, 10, 150);
 	glPushMatrix();//dome1
-	glTranslated(-1500, 250, 1850);
+	glTranslated(-1500, 250, 4850);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();//dome2
-	glTranslated(-1700, 250, 1850);
+	glTranslated(-1700, 250, 4850);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();//dome2
-	glTranslated(-1300, 250, 1850);
+	glTranslated(-1300, 250, 4850);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
-	m.door_windo(windo_build1_img, -1700, 140, 2060, 20, 20, 25, -90, 0, 1, 0);//windo front
-	m.door_windo(windo_build1_img, -1300, 140, 2060, 20, 20, 25, -90, 0, 1, 0);////windo2 front
-	m.door_windo(Door_build1_img, -1500, 100, 1690, 20, 40, 25, -90, 0, 1, 0);//door
+	m.door_windo(windo_build1_img, -1700, 140, 5060, 20, 20, 25, -90, 0, 1, 0);//windo front
+	m.door_windo(windo_build1_img, -1300, 140, 5060, 20, 20, 25, -90, 0, 1, 0);////windo2 front
+	m.door_windo(Door_build1_img, -1500, 100, 4690, 20, 40, 25, -90, 0, 1, 0);//door
 	glPushMatrix();//top 
-	glTranslated(-1500, 230, 1700);
+	glTranslated(-1500, 230, 4700);
 	glScaled(155, 10, 150);
 	glBindTexture(GL_TEXTURE_2D, colume_img);
 	glBegin(GL_QUADS);
@@ -1130,8 +1160,8 @@ public:void bulid1_Surrounding(int windo_build1_img, int Door_build1_img, int co
 	glVertex3d(-2, 2, 2);
 	glEnd();
 	glPopMatrix();
-	columns_middle(platform_colum, 20, 250, -1790, 0, 1420);
-	columns_middle(platform_colum, 20, 250, -1210, 0, 1420);
+	columns_middle(platform_colum, 20, 250, -1790, 0, 4420);
+	columns_middle(platform_colum, 20, 250, -1210, 0, 4420);
 
 	//bulid5
 	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -1200, 0, -2350, 75, 125, 75);
@@ -1199,22 +1229,22 @@ public:void bulid1_Surrounding(int windo_build1_img, int Door_build1_img, int co
 	m.door_windo(windo_build1_img, -2350, 100, -1250, 25, 25, 50, 0, 0, 0, 0);;//windo2
 
 	//bulid7
-	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -2600, 0, 1100, 100, 125, 200);
+	m.Quads(colume_img, colume_img, colume_img, colume_img, colume_img, -2600, 0, 2600, 100, 125, 200);
 	glPushMatrix();//dome
-	glTranslated(-2600, 250, 1400);
+	glTranslated(-2600, 250, 2900);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();//dome
-	glTranslated(-2600, 250, 1150);
+	glTranslated(-2600, 250, 2650);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
 	glPopMatrix();
 	glPushMatrix();//dome
-	glTranslated(-2600, 250, 900);
+	glTranslated(-2600, 250, 2400);
 	m.draw_sphere(100, dome2, 0, 0, 0);
 	glPopMatrix();
-	m.door_windo(Door_build1_img, -2350, 70, 900, 25, 50, 25, 0, 0, 0, 0);///Door
-	m.door_windo(windo_build1_img, -2350, 100, 1250, 25, 25, 40, 0, 0, 0, 0);;//windo
+	m.door_windo(Door_build1_img, -2350, 70, 2400, 25, 50, 25, 0, 0, 0, 0);///Door
+	m.door_windo(windo_build1_img, -2350, 100, 2750, 25, 25, 40, 0, 0, 0, 0);;//windo
 
 }
 };

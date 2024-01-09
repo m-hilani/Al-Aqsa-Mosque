@@ -62,7 +62,11 @@ public:void door(int colum_img, int door_mercy_img, int chian, int  DarAlHadith,
 	glRotated(90, 0, 1, 0);
 	m2.Arc(Door_alasibat2, 1, 1);
 	glPopMatrix();
-
+	//باب حطة
+	m2.Quads(Door_alasibat2, Door_alasibat2, Door_alasibat2, Door_alasibat2, Door_alasibat2, -14000, 700, 3350, 300, 400, 30);//wall
+	m2.Quads(Door_alasibat2, Door_alasibat2, Door_alasibat2, Door_alasibat2, Door_alasibat2, -14000, 700, 4550, 300, 400, 30);//wall
+	m2.Quads(Door_alasibat2, Door_alasibat2, Door_alasibat2, Door_alasibat, Door_alasibat, -14500, 700, 3850, 30, 400, 250);//door
+	m2.Quads(Door_alasibat2, Door_alasibat2, Door_alasibat2, Door_alasibat2, Door_alasibat2, -14000, 1400, 3850, 330, 20, 250);//roof
 
 
 

@@ -7,15 +7,9 @@
 
 class Sky
 {
-public:void Draw_Skybox(float x, float y, float z, float width, float height, float length)
+	
+public:void Draw_Skybox(int SKYFRONT, int  SKYBACK, int SKYLEFT, int SKYRIGHT, int  SKYUP,int SKYDOWN,float x, float y, float z, float width, float height, float length)
 {
-	int SKYFRONT, SKYBACK, SKYLEFT, SKYRIGHT, SKYUP, SKYDOWN;
-	SKYFRONT = LoadTexture((char*)"front.bmp", 255);
-	SKYBACK = LoadTexture((char*)"back.bmp", 255);
-	SKYLEFT = LoadTexture((char*)"left.bmp", 255);
-	SKYRIGHT = LoadTexture((char*)"right.bmp", 255);
-	SKYUP = LoadTexture((char*)"up.bmp", 255);
-	SKYDOWN = LoadTexture((char*)"down.bmp", 255);
 	// Center the Skybox around the given x,y,z position
 	x = x - width / 2;
 	y = y - height / 2;
@@ -97,17 +91,19 @@ public:void Draw_Skybox(float x, float y, float z, float width, float height, fl
 public:void sky(int back, int front, int left, int right, int top)
 {
 	glPushMatrix();
-	glScaled(60, 60, 60);
-	glBindTexture(GL_TEXTURE_2D, front);
+	glTranslated(0, 3000, 0);
+	glScaled(85, 85, 85);
+	//glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, back);
 	glBegin(GL_QUADS);
 	glTexCoord2d(0, 0);
-	glVertex3d(-200, -200, -200);
-	glTexCoord2d(1, 0);
 	glVertex3d(200, -200, -200);
+	glTexCoord2d(1, 0);
+	glVertex3d(-200, -200, -200);
 	glTexCoord2d(1, 1);
-	glVertex3d(200, 200, -200);
-	glTexCoord2d(0, 1);
 	glVertex3d(-200, 200, -200);
+	glTexCoord2d(0, 1);
+	glVertex3d(200, 200, -200);
 	glEnd();
 
 	glBindTexture(GL_TEXTURE_2D, back);
@@ -122,7 +118,7 @@ public:void sky(int back, int front, int left, int right, int top)
 	glVertex3d(-200, 200, 200);
 	glEnd();
 
-	glBindTexture(GL_TEXTURE_2D, left);
+	glBindTexture(GL_TEXTURE_2D, back);
 	glBegin(GL_QUADS);
 	glTexCoord2d(0, 0);
 	glVertex3d(-200, -200, 200);
@@ -134,7 +130,7 @@ public:void sky(int back, int front, int left, int right, int top)
 	glVertex3d(-200, 200, 200);
 	glEnd();
 
-	glBindTexture(GL_TEXTURE_2D, right);
+	glBindTexture(GL_TEXTURE_2D, back);
 	glBegin(GL_QUADS);
 	glTexCoord2d(1, 0);
 	glVertex3d(200, -200, 200);

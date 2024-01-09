@@ -12,13 +12,13 @@ public:void floor(int image)
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
-	glVertex3f(-300, -30, 200);
+	glVertex3f(-340, -30, 600);
 	glTexCoord2d(1, 0);
-	glVertex3f(300, -30, 200);
+	glVertex3f(300, -30, 600);
 	glTexCoord2d(1, 1);
 	glVertex3f(300, -30, -165);
 	glTexCoord2d(0, 1);
-	glVertex3f(-300, -30, -165);
+	glVertex3f(-340, -30, -165);
 	glEnd();
 	glPopMatrix();
 
@@ -28,13 +28,13 @@ public:void floor(int image)
 	glBindTexture(GL_TEXTURE_2D, image);
 	glBegin(GL_POLYGON);
 	glTexCoord2d(0, 0);
-	glVertex3f(-300, -30, 120);
+	glVertex3f(-370, -30, 120);
 	glTexCoord2d(1, 0);
 	glVertex3f(300, -30, 120);
 	glTexCoord2d(1, 1);
-	glVertex3f(300, -30, -250);
+	glVertex3f(300, -30, -450);
 	glTexCoord2d(0, 1);
-	glVertex3f(-300, -30, -250);
+	glVertex3f(-370, -30, -450);
 	glEnd();
 	glPopMatrix();
 

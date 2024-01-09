@@ -34,6 +34,8 @@ public:void draw_sphere(float r, float dome_img, float x, float y, float z)
 				sin(a + da / 2));
 
 			glBindTexture(GL_TEXTURE_2D, dome_img);
+					
+
 			glBegin(GL_QUADS);
 			//P1
 
@@ -43,7 +45,7 @@ public:void draw_sphere(float r, float dome_img, float x, float y, float z)
 				(r * cos(a) * sin(b)) + y,
 				(r * sin(a)) + z);
 			//P2
-			glTexCoord2f(i + di, j);//P2
+			glTexCoord2f(i + di+0.2, j+0.2);//P2
 			glVertex3f(
 				(r * cos(a) * cos(b + db)) + x,
 				(r * cos(a) * sin(b + db)) + y,
